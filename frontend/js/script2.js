@@ -3,24 +3,27 @@ const form = document.getElementById("form");
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const nome = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
-    const imagem = document.getElementById("imagem").value; // Novo campo
 
     try {
-        const response = await fetch("http://localhost:5000/usuarios", {
+        const response = await fetch("http://localhost:5000/check", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ nome, email, senha, imagem }) // Incluindo imagem
+            body: JSON.stringify({ email, senha })
         });
 
         const data = await response.json();
 
         if(response.ok) {
-            alert(data.mensagem);
+            alert(data.nome);
+            sessionStorage.setItem("ID", data.id)
+            sessionStorage.setItem("nome", data.nome)
+            sessionStorage.setItem("email", data.email)
+            sessionStorage.setItem("imagem", data.imagem)
+            location.href="inicio.html"
         } else {
             alert(data.erro);
         }
