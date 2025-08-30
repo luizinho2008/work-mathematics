@@ -8,7 +8,7 @@
 
 /* Corpo da página */
 body {
-    background-image: url("https://media.istockphoto.com/id/532378051/pt/foto/c%C3%A9u-de-noite-com-estrelas-e-nuvens.jpg?s=612x612&w=0&k=20&c=mhcc45q09y1kzKUSby5ZOk-RQ4b10zXKHoCwQh9L-Kc=");
+    background-image: linear-gradient(to left, dodgerblue, blue);
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
@@ -24,31 +24,52 @@ body {
 .menu ul {
     list-style: none;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center; /* centraliza verticalmente os itens */
+    align-items: center;
 }
 
 .menu ul li {
-    margin: 0 15px;
+    margin: 5px 15px;
 }
 
 .menu ul li a {
     color: white;
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.3s;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
 }
 
-.menu ul li a:hover {
-    color: #f39c12;
+/* Avatar do usuário com email ao lado */
+.menu ul li.avatar {
+    display: flex;
+    align-items: center;
 }
 
-/* Avatar do usuário */
 .menu ul li.avatar img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     border: 2px solid white;
+    margin-right: 10px;
+}
+
+.menu ul li.avatar span {
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* Botão Sair com fundo vermelho */
+.menu ul li a[onclick="sair()"] {
+    background-color: #e74c3c;
+    cursor: pointer;
+}
+
+.menu ul li a[onclick="sair()"]:hover {
+    background-color: #c0392b;
 }
 
 /* Conteúdo principal */
@@ -66,4 +87,73 @@ main h1 {
 main p {
     font-size: 1.2rem;
     text-shadow: 1px 1px 3px #000;
+    margin: 20px 0;
+    line-height: 1.5;
+    width: 100%;
+    text-align: center;
+}
+
+/* Seções de escolha */
+.escolha-solido, .quantidade-orcamentos {
+    background-color: rgba(0,0,0,0.4);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 600px;
+    text-align: center;
+}
+
+.escolha-solido h2, .quantidade-orcamentos h2 {
+    margin-bottom: 15px;
+    color: #f1c40f;
+    text-shadow: 1px 1px 3px #000;
+}
+
+select {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+select:hover {
+    background-color: #2980b9;
+}
+
+select:focus {
+    outline: none;
+    background-color: #f1c40f;
+    color: #000;
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 600px) {
+    .menu ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu ul li {
+        margin: 8px 0;
+    }
+
+    .menu ul li.avatar {
+        justify-content: center;
+    }
+
+    .menu ul li.avatar span {
+        font-size: 0.8rem;
+    }
+
+    main h1 {
+        font-size: 2rem;
+    }
+
+    main p {
+        font-size: 1rem;
+    }
 }
