@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificar Orçamentos</title>
+  <link rel="stylesheet" href="css/style3.css">
+</head>
+<body>
+  <h1 id="inicial">Orçamentos do Usuário</h1>
+
+  <button id="sairBtn" onclick="sair()">Sair</button>
+
+  <table id="orcamentos">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome Sólido</th>
+        <th>Orçamentos</th>
+        <th>Menor Número</th>
+        <th>Preço do Menor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Linhas de orçamento serão inseridas aqui -->
+    </tbody>
+  </table>
+
+  <script>
+    const userId = sessionStorage.getItem("ID");
+
+    if (!userId) {
+      location.href = "login.html";
+    }
+
+    const sair = () => {
+      location.href = "inicio.html";
+    }
+
+    document.getElementById("inicial").innerHTML = `Orçamentos do usuário ${sessionStorage.getItem("nome")}`
+
+    fetch(`http://localhost:5000/orcamentos/${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector("#orcamentos tbody");
+
+        if (data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Nenhum orçamento encontrado.</td></tr>`;
+          return;
+        }
+
+        data.forEach(o => {
+    const lista = JSON.parse(o.orcamentos);
+
+    // Reorganizar cada item: precoPorM3 primeiro
+    const listaFormatada = lista.map(item => ({
+        numero: item.numero,
+        volume: item.volume,
+        precoPorM3: item.precoPorM3,
+        custo: item.custo
+    }));
+
+    const orcamentosFormatado = JSON.stringify(listaFormatada, null, 2);
+
+    tbody.innerHTML += `
+        <tr>
+          <td>${o.id}</td>
+          <td>${o.nome_solido}</td>
+          <td><pre>${orcamentosFormatado}</pre></td>
+          <td>${o.menor_numero}</td>
+          <td>R$ ${o.preco_do_menor}</td>
+        </tr>
+    `;
+});
+      })
+      .catch(err => console.error(err));
+  </script>
+</body>
+</html>

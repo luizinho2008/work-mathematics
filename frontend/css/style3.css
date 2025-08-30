@@ -1,0 +1,111 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+}
+
+/* Corpo da página */
+body {
+    background-image: url("https://media.istockphoto.com/id/532378051/pt/foto/c%C3%A9u-de-noite-com-estrelas-e-nuvens.jpg?s=612x612&w=0&k=20&c=mhcc45q09y1kzKUSby5ZOk-RQ4b10zXKHoCwQh9L-Kc=");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Título */
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+}
+
+/* Botão de sair */
+#sairBtn {
+    display: block;
+    width: 50%;
+    margin: 0 auto 20px auto;
+    padding: 10px 25px;
+    background-color: #ff0000;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+#sairBtn:hover {
+    background-color: #e60000;
+    transform: translateY(-2px);
+}
+
+/* Tabela */
+table {
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+thead {
+    background-color: rgba(0,128,255,0.8);
+}
+
+/* Cabeçalho da tabela */
+thead th {
+    color: #fff;
+    padding: 15px;
+    text-align: left;
+    font-size: 1.25rem; /* aumentei de 1.1rem para 1.5rem */
+}
+
+/* Corpo da tabela */
+tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    font-size: 1.25rem; /* aumentei de 1rem para 1.25rem */
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(255,255,255,0.05);
+}
+
+tbody tr:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+tbody td:last-child {
+    font-weight: bold;
+    color: #27ae60;
+}
+
+/* Pre para JSON */
+pre {
+    white-space: pre-wrap; /* quebra de linha automática */
+    word-wrap: break-word;
+    background: rgba(255,255,255,0.1);
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #fff;
+    margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 650px) {
+    h1 { font-size: 2rem; }
+    table { font-size: 0.9rem; }
+    thead th, tbody td { padding: 10px; }
+    #sairBtn { width: 70%; font-size: 1rem; }
+}

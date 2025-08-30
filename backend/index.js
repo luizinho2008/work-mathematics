@@ -1,54 +1,54 @@
-const express = require("express")
-const mysql = require("mysql")
-const cors = require("cors")
+const express = require("express");
+const mysql = require("mysql");
+const cors = require("cors");
 const bcrypt = require("bcrypt");
 
-const app = express()
+const app = express();
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 
 const connexion = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
     database: "maths2025"
-})
+});
 
 connexion.connect(erro => {
     if(erro) {
-        console.log(`Falha ao se conectar ao MySQL: ${erro}`)
+        console.log(`Falha ao se conectar ao MySQL: ${erro}`);
     } else {
-        console.log(`Conexão efetuada com sucesso`)
+        console.log(`Conexão efetuada com sucesso`);
     }
-})
+});
 
+// --- Usuários ---
 app.post("/usuarios", async (req, res) => {
-    const { nome, email, senha, imagem } = req.body
+    const { nome, email, senha, imagem } = req.body;
 
     if(!nome || !email || !senha || !imagem) {
-        return res.status(400).json({ erro: "Todos os campos são obrigatórios" })
+        return res.status(400).json({ erro: "Todos os campos são obrigatórios" });
     }
 
     try {
-        // Gerar hash da senha
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(senha, saltRounds);
 
-        const sql = "INSERT INTO usuarios (nome, email, senha, imagem) VALUES (?, ?, ?, ?)"
-        const valores = [nome, email, hashedPassword, imagem]
+        const sql = "INSERT INTO usuarios (nome, email, senha, imagem) VALUES (?, ?, ?, ?)";
+        const valores = [nome, email, hashedPassword, imagem];
 
         connexion.query(sql, valores, (erro, resultado) => {
             if(erro) {
-                console.log(erro)
-                return res.status(500).json({ erro: "Erro ao inserir usuário" })
+                console.log(erro);
+                return res.status(500).json({ erro: "Erro ao inserir usuário" });
             }
-            res.status(201).json({ mensagem: "Usuário cadastrado com sucesso", id: resultado.insertId })
-        })
+            res.status(201).json({ mensagem: "Usuário cadastrado com sucesso", id: resultado.insertId });
+        });
     } catch (erro) {
-        console.log(erro)
-        res.status(500).json({ erro: "Erro ao criptografar senha" })
+        console.log(erro);
+        res.status(500).json({ erro: "Erro ao criptografar senha" });
     }
-})
+});
 
 app.post("/check", (req, res) => {
     const { email, senha } = req.body;
@@ -60,45 +60,52 @@ app.post("/check", (req, res) => {
     const sql = "SELECT * FROM usuarios WHERE email = ?";
     connexion.query(sql, [email], (erro, resultados) => {
         if (erro) return res.status(500).json({ erro: "Erro ao consultar usuário" });
-
         if (resultados.length === 0) return res.status(404).json({ erro: "Usuário não encontrado" });
 
         const usuario = resultados[0];
 
-        // Comparar senha
         bcrypt.compare(senha, usuario.senha, (err, ok) => {
             if (err) return res.status(500).json({ erro: "Erro ao verificar senha" });
-
             if (!ok) return res.status(401).json({ erro: "Senha incorreta" });
 
-            // Retornar usuário sem a senha
             delete usuario.senha;
             res.json(usuario);
         });
     });
 });
 
+// --- Gravar Orçamento ---
 app.post("/gravar", (req, res) => {
-    const { nomeSolido, orcamentos, menorNumero, precoDoMenor } = req.body;
-    if (
-        nomeSolido == null || 
-        orcamentos == null || 
-        menorNumero == null || 
-        precoDoMenor == null
-    ) {
+    const { usuario_id, nomeSolido, orcamentos, menorNumero, precoDoMenor } = req.body;
+
+    if (!usuario_id || !nomeSolido || !orcamentos || !menorNumero || !precoDoMenor) {
         return res.status(400).json({ erro: 'Todos os campos são obrigatórios' });
     }
 
-    const sql = `INSERT INTO orcamento(nome_solido, orcamentos, menor_numero, preco_do_menor)
-                VALUES(?, ?, ?, ?)`;
+    const sql = `INSERT INTO orcamento(usuario_id, nome_solido, orcamentos, menor_numero, preco_do_menor)
+                 VALUES(?, ?, ?, ?, ?)`;
 
-    connexion.query(sql, [nomeSolido, orcamentos, menorNumero, precoDoMenor], (err, result) => {
+    connexion.query(sql, [usuario_id, nomeSolido, orcamentos, menorNumero, precoDoMenor], (err, result) => {
         if (err) return res.status(500).json({ erro: 'Erro ao inserir no banco' });
         res.json({ sucesso: true, id: result.insertId });
     });
-})
+});
 
+// --- Buscar orçamentos do usuário ---
+app.get("/orcamentos/:usuarioId", (req, res) => {
+    const { usuarioId } = req.params;
+
+    const sql = "SELECT * FROM orcamento WHERE usuario_id = ?";
+    connexion.query(sql, [usuarioId], (err, resultados) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ erro: "Erro ao buscar orçamentos" });
+        }
+
+        res.json(resultados);
+    });
+});
 
 app.listen(5000, () => {
-    console.log("Servidor rodando na porta 5000")
+    console.log("Servidor rodando na porta 5000");
 });

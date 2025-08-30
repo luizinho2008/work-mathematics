@@ -4,8 +4,8 @@
 /* Corpo da página */
 body {
     background-image: url("https://media.istockphoto.com/id/532378051/pt/foto/c%C3%A9u-de-noite-com-estrelas-e-nuvens.jpg?s=612x612&w=0&k=20&c=mhcc45q09y1kzKUSby5ZOk-RQ4b10zXKHoCwQh9L-Kc=");
-    background-attachment: fixed;
-    background-size: cover;
+    /* background-attachment: fixed;
+    background-size: cover; */
     background-position: center;
     color:#fff;
 }

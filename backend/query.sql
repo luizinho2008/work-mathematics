@@ -15,8 +15,10 @@ CREATE TABLE IF NOT EXISTS usuarios (
 
 CREATE TABLE orcamento (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,        -- ID do usuário dono do orçamento
     nome_solido VARCHAR(50) NOT NULL,
-    orcamentos TEXT NOT NULL,      -- JSON como string
-    menor_numero INT NOT NULL,     -- número do orçamento mais barato
-    preco_do_menor DECIMAL(10,2) NOT NULL -- preço do menor orçamento
+    orcamentos TEXT NOT NULL,       -- JSON como string
+    menor_numero INT NOT NULL,      -- número do orçamento mais barato
+    preco_do_menor DECIMAL(10,2) NOT NULL, -- preço do menor orçamento
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
