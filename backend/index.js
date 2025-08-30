@@ -78,6 +78,26 @@ app.post("/check", (req, res) => {
     });
 });
 
+app.post("/gravar", (req, res) => {
+    const { nomeSolido, orcamentos, menorNumero, precoDoMenor } = req.body;
+    if (
+        nomeSolido == null || 
+        orcamentos == null || 
+        menorNumero == null || 
+        precoDoMenor == null
+    ) {
+        return res.status(400).json({ erro: 'Todos os campos são obrigatórios' });
+    }
+
+    const sql = `INSERT INTO orcamento(nome_solido, orcamentos, menor_numero, preco_do_menor)
+                VALUES(?, ?, ?, ?)`;
+
+    connexion.query(sql, [nomeSolido, orcamentos, menorNumero, precoDoMenor], (err, result) => {
+        if (err) return res.status(500).json({ erro: 'Erro ao inserir no banco' });
+        res.json({ sucesso: true, id: result.insertId });
+    });
+})
+
 
 app.listen(5000, () => {
     console.log("Servidor rodando na porta 5000")

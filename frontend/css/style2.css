@@ -1,159 +1,57 @@
 /* Reset básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
+* {margin:0; font-weight: bold;padding:0; box-sizing:border-box; font-family:Arial, sans-serif;}
 
 /* Corpo da página */
 body {
-    background-image: linear-gradient(to left, dodgerblue, blue);
+    background-image: url("https://media.istockphoto.com/id/532378051/pt/foto/c%C3%A9u-de-noite-com-estrelas-e-nuvens.jpg?s=612x612&w=0&k=20&c=mhcc45q09y1kzKUSby5ZOk-RQ4b10zXKHoCwQh9L-Kc=");
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
-    color: #fff;
+    color:#fff;
 }
 
 /* Menu */
-.menu {
-    background-color: #0080ff;
-    padding: 15px 0;
-}
-
-.menu ul {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-
-.menu ul li {
-    margin: 5px 15px;
-}
-
-.menu ul li a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    padding: 8px 15px;
-    border-radius: 5px;
-    transition: all 0.3s;
-}
-
-/* Avatar do usuário com email ao lado */
-.menu ul li.avatar {
-    display: flex;
-    align-items: center;
-}
-
-.menu ul li.avatar img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid white;
-    margin-right: 10px;
-}
-
-.menu ul li.avatar span {
-    color: white;
-    font-weight: bold;
-    font-size: 0.9rem;
-}
-
-/* Botão Sair com fundo vermelho */
-.menu ul li a[onclick="sair()"] {
-    background-color: #e74c3c;
-    cursor: pointer;
-}
-
-.menu ul li a[onclick="sair()"]:hover {
-    background-color: #c0392b;
-}
+.menu {background-color:#0080ff; padding:15px 0;}
+.menu ul {list-style:none; display:flex; flex-wrap:wrap; justify-content:center; align-items:center;}
+.menu ul li {margin:5px 15px;}
+.menu ul li a {color:white; text-decoration:none; font-weight:bold; padding:8px 15px; border-radius:5px; transition:all 0.3s;}
+.menu ul li.avatar {display:flex; align-items:center;}
+.menu ul li.avatar img {width:40px; height:40px; border-radius:50%; border:2px solid white; margin-right:10px;}
+.menu ul li.avatar span {color:white; font-weight:bold; font-size:0.9rem;}
+.menu ul li a[onclick="sair()"] {background-color:#ff1900; cursor:pointer;}
+.menu ul li a[onclick="sair()"]:hover {background-color:#ff1900;}
 
 /* Conteúdo principal */
-main {
-    text-align: center;
-    margin-top: 50px;
-}
+main {text-align:center; margin-top:50px;}
+main h1 {font-size:2.5rem; margin-bottom:20px; text-shadow:1px 1px 5px #000;}
+main p {font-size:1.2rem; text-shadow:1px 1px 3px #000; margin:20px 0; line-height:1.5; width:100%; text-align:center;}
 
-main h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 5px #000;
-}
-
-main p {
-    font-size: 1.2rem;
-    text-shadow: 1px 1px 3px #000;
-    margin: 20px 0;
-    line-height: 1.5;
-    width: 100%;
-    text-align: center;
-}
-
-/* Seções de escolha */
-.escolha-solido, .quantidade-orcamentos {
+/* Seções */
+.escolha-solido, .quantidade-orcamentos, .orcamentos-dinamicos {
     background-color: rgba(0,0,0,0.4);
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px auto;
-    max-width: 600px;
-    text-align: center;
+    padding:20px;
+    border-radius:10px;
+    margin:20px auto;
+    max-width:600px;
+    text-align:center;
 }
-
-.escolha-solido h2, .quantidade-orcamentos h2 {
-    margin-bottom: 15px;
-    color: #f1c40f;
-    text-shadow: 1px 1px 3px #000;
+.escolha-solido h2, .quantidade-orcamentos h2, .orcamentos-dinamicos h2 {
+    margin-bottom:15px; color:#f1c40f; text-shadow:1px 1px 3px #000;
 }
+select, input {padding:10px 15px; border-radius:8px; border:none; font-size:1rem; background-color:#3498db; color:#fff; cursor:pointer; margin:5px;}
+select:hover, input:hover {background-color:#2980b9;}
+select:focus, input:focus {outline:none; background-color:#f1c40f; color:#000;}
+button {padding:10px 20px; border:none; border-radius:8px; background-color:#2ecc71; color:#fff; font-size:1rem; cursor:pointer; margin-top:10px;}
+button:hover {background-color:#27ae60;}
+#gravar {background-color: red;}
+.resultado {margin-top:20px; background-color:rgba(0,0,0,0.5); padding:15px; border-radius:10px;}
 
-select {
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: none;
-    font-size: 1rem;
-    background-color: #3498db;
-    color: #fff;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-select:hover {
-    background-color: #2980b9;
-}
-
-select:focus {
-    outline: none;
-    background-color: #f1c40f;
-    color: #000;
-}
-
-/* Responsividade para telas pequenas */
-@media (max-width: 600px) {
-    .menu ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .menu ul li {
-        margin: 8px 0;
-    }
-
-    .menu ul li.avatar {
-        justify-content: center;
-    }
-
-    .menu ul li.avatar span {
-        font-size: 0.8rem;
-    }
-
-    main h1 {
-        font-size: 2rem;
-    }
-
-    main p {
-        font-size: 1rem;
-    }
+/* Responsividade */
+@media(max-width:600px){
+    .menu ul {flex-direction:column; align-items:center;}
+    .menu ul li {margin:8px 0;}
+    .menu ul li.avatar {justify-content:center;}
+    .menu ul li.avatar span {font-size:0.8rem;}
+    main h1 {font-size:2rem;}
+    main p {font-size:1rem;}
 }

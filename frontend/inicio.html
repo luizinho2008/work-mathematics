@@ -25,10 +25,9 @@
     <main>
         <h1 id="saudacao"></h1>
         <p id="descricao">
-            Bem-vindo ao sistema de cálculo de orçamentos. Esta plataforma permite a comparação entre diferentes opções, auxiliando na identificação da alternativa mais vantajosa. Além de histórias matemáticas!
+            Bem-vindo ao sistema de cálculo de orçamentos. Esta plataforma permite a comparação entre diferentes opções, auxiliando na identificação da alternativa mais vantajosa.
         </p>
 
-        <!-- Seção para escolher o sólido geométrico -->
         <section class="escolha-solido">
             <h2>Escolha o sólido geométrico</h2>
             <select id="solido">
@@ -38,7 +37,6 @@
             </select>
         </section>
 
-        <!-- Seção para escolher a quantidade de orçamentos -->
         <section class="quantidade-orcamentos">
             <h2>Selecione a quantidade de orçamentos</h2>
             <select id="quantidade">
@@ -49,28 +47,107 @@
                 <option value="4">4</option>
             </select>
         </section>
+
+        <section class="orcamentos-dinamicos" id="orcamentosContainer">
+            <h2>Orçamentos</h2>
+            <!-- Campos dinâmicos aparecerão aqui -->
+        </section>
+
+        <button onclick="calcular()">Calcular mais barato</button>
+        <button onclick="gravar()" id="gravar">Gravar ação</button>
+
+        <div class="resultado" id="resultado"></div>
     </main>
 
     <script>
-        // Verifica se o usuário está logado
+        // Login
         if (!sessionStorage.getItem("email")) {
             location.href = "login.html";
         } else {
             const avatar = document.getElementById("img");
             avatar.src = sessionStorage.getItem("imagem") || "https://via.placeholder.com/40";
-
             const nome = sessionStorage.getItem("nome");
             document.getElementById("emailUsuario").innerHTML = sessionStorage.getItem("email");
             document.getElementById("saudacao").innerHTML = `Seja bem-vindo, ${nome}!`;
         }
 
         const sair = () => {
-            sessionStorage.removeItem("id");
-            sessionStorage.removeItem("nome");
-            sessionStorage.removeItem("email");
-            sessionStorage.removeItem("imagem");
+            sessionStorage.clear();
             location.href = "login.html";
         }
+
+        // Inputs dinâmicos
+        document.getElementById("quantidade").addEventListener("change", () => {
+            const qtd = parseInt(document.getElementById("quantidade").value);
+            const container = document.getElementById("orcamentosContainer");
+            container.innerHTML = "<h2>Orçamentos</h2>";
+            const solido = document.getElementById("solido").value;
+
+            for (let i = 1; i <= qtd; i++) {
+                const div = document.createElement("div");
+                div.style.marginBottom = "15px";
+                div.innerHTML = `<h3>Orçamento ${i}</h3>`;
+
+                if (solido === "paralelepipedo") {
+                    div.innerHTML += `Comprimento (m): <input type="number" class="comp" step="0.01"><br>`;
+                    div.innerHTML += `Largura (m): <input type="number" class="larg" step="0.01"><br>`;
+                    div.innerHTML += `Altura (m): <input type="number" class="alt" step="0.01"><br>`;
+                } else if (solido === "cilindro") {
+                    div.innerHTML += `Raio (m): <input type="number" class="raio" step="0.01"><br>`;
+                    div.innerHTML += `Altura (m): <input type="number" class="alt" step="0.01"><br>`;
+                } else if (solido === "esfera") {
+                    div.innerHTML += `Raio (m): <input type="number" class="raio" step="0.01"><br>`;
+                }
+
+                div.innerHTML += `Preço por m³: <input type="number" class="preco" step="0.01"><br>`;
+                container.appendChild(div);
+            }
+        });
+
+        document.getElementById("solido").addEventListener("change", () => {
+            document.getElementById("quantidade").dispatchEvent(new Event("change"));
+        });
+
+        // Cálculo do custo
+        function calcular() {
+            const solido = document.getElementById("solido").value;
+            const container = document.getElementById("orcamentosContainer");
+            const orcamentos = container.querySelectorAll("div");
+            let melhor = { index: -1, custo: Infinity };
+            let todos = "";
+
+            orcamentos.forEach((div, i) => {
+                let volume = 0;
+
+                if (solido === "paralelepipedo") {
+                    const comp = parseFloat(div.querySelector(".comp").value) || 0;
+                    const larg = parseFloat(div.querySelector(".larg").value) || 0;
+                    const alt = parseFloat(div.querySelector(".alt").value) || 0;
+                    volume = comp * larg * alt;
+                } else if (solido === "cilindro") {
+                    const r = parseFloat(div.querySelector(".raio").value) || 0;
+                    const alt = parseFloat(div.querySelector(".alt").value) || 0;
+                    volume = Math.PI * r * r * alt;
+                } else if (solido === "esfera") {
+                    const r = parseFloat(div.querySelector(".raio").value) || 0;
+                    volume = (4 / 3) * Math.PI * r * r * r;
+                }
+
+                const preco = parseFloat(div.querySelector(".preco").value) || 0;
+                const custo = volume * preco;
+                todos += `Orçamento ${i + 1}: R$ ${custo.toFixed(2)}<br>`;
+
+                if (custo < melhor.custo) melhor = { index: i + 1, custo: custo };
+            });
+
+            const res = document.getElementById("resultado");
+            if (melhor.index === -1) {
+                res.innerHTML = "Preencha os dados corretamente!";
+            } else {
+                res.innerHTML = `${todos}<br>O orçamento mais barato é o nº ${melhor.index} com custo de R$ ${melhor.custo.toFixed(2)}`;
+            }
+        }
     </script>
+    <script src="js/scriptBD.js"></script>
 </body>
 </html>
