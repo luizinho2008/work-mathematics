@@ -43,6 +43,7 @@ button {
     border: none;
     background-color: black;
     color: white;
+    cursor: pointer;
 }
 @media (max-width: 500px) { /* Ponto de quebra ajustado para telas menores */
     #formulario {
