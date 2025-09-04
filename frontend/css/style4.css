@@ -1,0 +1,225 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Corpo da página */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-image: url("https://media.istockphoto.com/id/532378051/pt/foto/c%C3%A9u-de-noite-com-estrelas-e-nuvens.jpg?s=612x612&w=0&k=20&c=mhcc45q09y1kzKUSby5ZOk-RQ4b10zXKHoCwQh9L-Kc=");
+    background-attachment: fixed;
+    background-size: cover;
+    padding: 20px;
+}
+
+/* Botão Sair */
+#sairBtn {
+    display: block;
+    width: 50%;
+    max-width: 300px;
+    padding: 10px 25px;
+    background-color: #ff0000;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+}
+#sairBtn:hover {
+    background-color: #e60000;
+    transform: translateY(-2px);
+}
+
+/* Grid de flashcards */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+/* Flashcards */
+.flashcard {
+    background-color: #FFD700;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.flashcard:hover {
+    transform: scale(1.05);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background: #0099ff;
+    padding: 40px 20px;
+    border-radius: 12px;
+    font-weight: bolder;
+    color: white;
+    position: relative;
+    width: 100%;
+    max-width: 750px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column; /* Coloca o texto acima das setas */
+    align-items: center;
+}
+
+.modal-text {
+    flex-grow: 1;
+    padding: 0 10px;
+    min-width: 250px;
+    text-align: center;
+}
+
+.modal-text h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.modal-text p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.modal-nav {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px; /* Espaço entre as setas */
+}
+
+/* Botões de navegação do modal */
+.nav-btn {
+    background-color: #ffffff;
+    color: rgb(0, 47, 255);
+    border: none;
+    font-size: 24px;
+    border-radius: 50%;
+    min-width: 50px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.nav-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Botão fechar do modal */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    color: #999;
+    cursor: pointer;
+    font-weight: bold;
+}
+.close-btn:hover {
+    color: #333;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+    .modal-text h2 {
+        font-size: 22px;
+    }
+    .modal-text p {
+        font-size: 16px;
+    }
+    .nav-btn {
+        font-size: 20px;
+        min-width: 40px;
+        min-height: 40px;
+    }
+    .modal-content {
+        padding: 30px 15px;
+    }
+}
+
+/* Campo de pesquisa */
+#searchInput {
+    width: 50%;
+    max-width: 400px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-weight: bolder;
+}
+
+/* Botão mostrar favoritos */
+#showFavoritesBtn {
+    width: 50%;
+    max-width: 200px;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #00cc66;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#showFavoritesBtn:hover {
+    background-color: #00994d;
+}
+
+/* Botão de favoritar no modal */
+#favoriteBtn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #ff0066;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+#favoriteBtn.favorited {
+    background-color: gold;
+    color: black;
+}
